@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="ukr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>S3rG0's OCR - Translator</title>
+  <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/tesseract.js/1.0.10/tesseract.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+<div class="container">
+  <div class="card input-wrapper">
+    <div class="from">
+      <span class="heading">Перевести з :</span>
+      <div class="dropdown-container" id="input-language">
+        <div class="dropdown-toggle">
+          <ion-icon name="globe-outline"></ion-icon>
+          <span class="selected" data-value="auto">Визначити автоматично</span>
+          <ion-icon name="chevron-down-outline"></ion-icon>
+        </div>
+        <ul class="dropdown-menu">
+          <li class="option active"></li>
+          <li class="option"></li>
+        </ul>
+      </div>
+    </div>
+    <div >
+      <textarea id="input-text" cols="30" rows="10" placeholder="Введіть ваш текст"></textarea>
+    </div>
+  </div>
+
+  <div class="center">
+    <button onclick="window.location.href='index.html'">На головну</button>
+
+
+  </div>
+
+  <div class="card output-wrapper">
+    <div class="to">
+      <span class="heading">Перевести на :</span>
+      <div class="dropdown-container" id="output-language">
+        <div class="dropdown-toggle">
+          <ion-icon name="globe-outline"></ion-icon>
+          <span class="selected" data-value="en">English</span>
+          <ion-icon name="chevron-down-outline"></ion-icon>
+        </div>
+        <ul class="dropdown-menu">
+          <li class="option active"></li>
+          <li class="option"></li>
+        </ul>
+      </div>
+    </div>
+    <textarea id="output-text" cols="30" rows="10" placeholder="Переведений текст з'явиться тут" disabled></textarea>
+    <div class="card-bottom">
+      <p>Завантажте як текстовий файл!</p>
+      <button id="download-btn">
+        <span>Завантажити</span>
+        <ion-icon name="cloud-download-outline"></ion-icon>
+      </button>
+    </div>
+  </div>
+</div>
+
+<script src="languages.js"></script>
+<script src="translateScript.js"></script>
+<script>
+  window.addEventListener('load', () => {
+    const inputTextElem = document.querySelector("#input-text");
+
+    setTimeout(() => {
+      const ocrText = localStorage.getItem('ocrText');
+      if (ocrText) {
+        inputTextElem.value = ocrText;
+        localStorage.removeItem('ocrText'); // Очистити локальне сховище після вставлення тексту
+
+        // Виклик функції для перекладу після вставлення тексту
+        translate();
+      }
+    }, 300); // Затримка 500 мілісекунд
+  });
+</script>
+</body>
+</html>
