@@ -1,131 +1,130 @@
 <!DOCTYPE html>
 <html lang="ukr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>S3rG0's OCR</title>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/tesseract.js/1.0.10/tesseract.js"></script>
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <link href="style.css" rel="stylesheet" type="text/css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>S3rG0's OCR</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tesseract.js/1.0.10/tesseract.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link href="style.css" rel="stylesheet" type="text/css">
 </head>
 <body>
 <div class="container">
-  <div class="card input-wrapper">
-    <div class="image-preview-container">
-      <div id="image-preview"></div>
-      <div class="watermark">Натисніть "Ctrl+V" щоб вставити скріншот з буфера обміну</div>
-    </div>
-  </div>
-
-
-  <div class="center">
-    <div class="menu-position">
-      <div class="input-container">
-        <label class="input-file">
-          <input type="file" name="file" id="file-input" accept="image/*">
-          <span>Виберіть зображення</span>
-        </label>
-      </div><br>
-      <div class="select-container">
-        <div class="select-toggle">
-          <span id="selected-option">Вибрати мову</span>
+    <div class="card input-wrapper">
+        <div class="image-preview-container">
+            <div id="image-preview"></div>
+            <div class="watermark">Натисніть "Ctrl+V" щоб вставити скріншот з буфера обміну</div>
         </div>
-        <ul class="select-menu" id="select-menu">
-          <li data-value="ukr">Українська</li>
-          <li data-value="eng">Англійська</li>
-          <li data-value="pol">Польська</li>
-          <li data-value="deu">Німецька</li>
-          <li data-value="fra">Французька</li>
-          <li data-value="chi_sim">Китайська</li>
-        </ul>
-        <select class="custom-dropdown-menu" id="lang-select" style="display: none;">
-          <option value="ukr">Українська</option>
-          <option value="eng">Англійська</option>
-          <option value="pol">Польська</option>
-          <option value="deu">Німецька</option>
-          <option value="fra">Французька</option>
-          <option value="chi_sim">Китайська</option>
-        </select>
-      </div><br>
-      <button class="btn" type="button" id="recognize-btn">Розпізнати текст</button><br>
+    </div>
+    <div class="center">
+        <div class="menu-position">
+            <div class="input-container">
+                <label class="input-file">
+                    <input type="file" name="file" id="file-input" accept="image/*">
+                    <span>Виберіть зображення</span>
+                </label>
+            </div>
+            <br>
+            <div class="select-container">
+                <div class="select-toggle">
+                    <span id="selected-option">Вибрати мову</span>
+                </div>
+                <ul class="select-menu" id="select-menu">
+                    <li data-value="ukr">Українська</li>
+                    <li data-value="eng">Англійська</li>
+                    <li data-value="pol">Польська</li>
+                    <li data-value="deu">Німецька</li>
+                    <li data-value="fra">Французька</li>
+                    <li data-value="chi_sim">Китайська</li>
+                </ul>
+                <select class="custom-dropdown-menu" id="lang-select" style="display: none;">
+                    <option value="ukr">Українська</option>
+                    <option value="eng">Англійська</option>
+                    <option value="pol">Польська</option>
+                    <option value="deu">Німецька</option>
+                    <option value="fra">Французька</option>
+                    <option value="chi_sim">Китайська</option>
+                </select>
+            </div>
+            <br>
+            <button class="btn" type="button" id="recognize-btn">Розпізнати текст</button>
+            <br>
+            <div id="progress-container">
+                <progress></progress>
+            </div>
+            <br>
+            <button onclick="copyTextFunction()">Скопіювати текст</button>
+            <br>
+            <button onclick="translateText()">Перекласти розпізнаний текст</button>
+            <br>
+            <button onclick="window.location.reload();">Очистити дані</button>
+            <br>
+            <button onclick="window.location.href='translate.html'">Перекладач</button>
+        </div>
+    </div>
+    <div class="card output-wrapper">
+        <textarea class="output-text" cols="30" rows="15" id="result" placeholder="Розпізнаний текст з'явиться тут" readonly></textarea>
+    </div>
+    <script src="recognizeScript.js"></script>
+    <script>
+        function copyTextFunction() {
+            var resultText = document.getElementById("result").textContent;
+            navigator.clipboard.writeText(resultText).then(() => {
+                alert("Текст скопійовано: " + resultText);
+            }).catch((error) => {
+                console.error("Не вдалося скопіювати текст: ", error);
+            });
+        }
 
-    <div id="progress-container"><progress></progress></div><br>
+        function translateText() {
+            var resultText = document.getElementById("result").textContent;
+            if (resultText) {
+                localStorage.setItem("ocrText", resultText);
+                window.open('translate.html', '_self');
+            } else {
+                alert("Немає тексту для перекладу");
+            }
+        }
 
-    <button  onclick="copyTextFunction()">Скопіювати текст</button><br>
-    <button  onclick="translateText()">Перекласти розпізнаний текст</button><br>
-    <button  onclick="window.location.reload();">Очистити дані</button><br>
-      <button onclick="window.location.href='translate.html'">Перекладач</button>
-  </div>
-  </div>
-  <div class="card output-wrapper">
-    <textarea class="output-text" cols="30" rows="15" id="result" placeholder="Розпізнаний текст з'явиться тут" readonly></textarea>
-  </div>
-<script src="recognizeScript.js"></script>
-<script>
-  function copyTextFunction() {
-    var resultText = document.getElementById("result").textContent;
-    navigator.clipboard.writeText(resultText).then(() => {
-      alert("Текст скопійовано: " + resultText);
-    }).catch((error) => {
-      console.error("Не вдалося скопіювати текст: ", error);
-    });
-  }
+        var fileInput = document.getElementById('file-input');
+        var imagePreview = document.getElementById('image-preview');
+        var watermark = document.querySelector('.watermark');
 
-  function translateText() {
-    var resultText = document.getElementById("result").textContent;
-    if (resultText) {
-      localStorage.setItem("ocrText", resultText);
-      window.open('translate.html', '_self');
-    } else {
-      alert("Немає тексту для перекладу");
-    }
-  }
+        fileInput.addEventListener('change', function (e) {
+            var selectedFile = e.target.files[0];
+            if (selectedFile) {
+                displayImage(selectedFile);
+                setTimeout(function () {
+                    watermark.style.display = 'none';
+                }, 100);
+            }
+        });
 
-  var fileInput = document.getElementById('file-input');
-  var imagePreview = document.getElementById('image-preview');
-  var watermark = document.querySelector('.watermark');
+        function displayImage(file) {
+            var reader = new FileReader();
+            reader.onload = function (event) {
+                var img = document.createElement('img');
+                img.src = event.target.result;
+                imagePreview.innerHTML = '';
+                imagePreview.appendChild(img);
+            };
+            reader.readAsDataURL(file);
+        }
 
-  fileInput.addEventListener('change', function(e) {
-    var selectedFile = e.target.files[0];
-    if (selectedFile) {
-      displayImage(selectedFile);
-      // Затримка перед хованням watermark
-      setTimeout(function() {
-        watermark.style.display = 'none';
-      }, 100); // Затримка в 100 мс дозволяє зображенню завантажитися
-    }
-  });
-
-  function displayImage(file) {
-    var reader = new FileReader();
-    reader.onload = function(event) {
-      var img = document.createElement('img');
-      img.src = event.target.result;
-      imagePreview.innerHTML = '';
-      imagePreview.appendChild(img);
-    };
-    reader.readAsDataURL(file);
-  }
-
-  // Обробка вставки з буфера обміну
-  window.addEventListener('paste', function(e) {
-    var items = e.clipboardData.items;
-    for (var i = 0; i < items.length; i++) {
-      if (items[i].type.indexOf('image') !== -1) {
-        var file = items[i].getAsFile();
-        displayImage(file);
-        // Затримка перед хованням watermark
-        setTimeout(function() {
-          watermark.style.display = 'none';
-        }, 100); // Затримка в 100 мс дозволяє зображенню завантажитися
-        break;
-      }
-    }
-  });
-
-
-
-</script>
+        window.addEventListener('paste', function (e) {
+            var items = e.clipboardData.items;
+            for (var i = 0; i < items.length; i++) {
+                if (items[i].type.indexOf('image') !== -1) {
+                    var file = items[i].getAsFile();
+                    displayImage(file);
+                    setTimeout(function () {
+                        watermark.style.display = 'none';
+                    }, 100);
+                    break;
+                }
+            }
+        });
+    </script>
 </div>
 </body>
 </html>
