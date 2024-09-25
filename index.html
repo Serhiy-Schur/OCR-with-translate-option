@@ -88,7 +88,7 @@
             <br>
             <button onclick="window.location.reload();">Очистити дані</button>
             <br>
-            <button onclick="window.location.href='translate.html'">Перекладач</button>
+            <button onclick="window.location.href='translate'">Перекладач</button>
         </div>
     </div>
     <div class="card output-wrapper">
@@ -110,7 +110,7 @@
             var resultText = document.getElementById("result").textContent;
             if (resultText) {
                 localStorage.setItem("ocrText", resultText);
-                window.open('translate.html', '_self');
+                window.open('translate', '_self');
             } else {
                 alert("Немає тексту для перекладу");
             }
