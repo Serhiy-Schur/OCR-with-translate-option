@@ -8,6 +8,20 @@ document.addEventListener('DOMContentLoaded', function () {
     selectToggle.addEventListener('click', function () {
         selectContainer.classList.toggle('active');
     });
+    const downloadBtn1 = document.querySelector("#download-btn1");
+
+    downloadBtn1.addEventListener("click", (e) => {
+        const outputText = document.querySelector("#result").value;
+        const outputLanguage = document.querySelector("#selected-option").textContent.trim();
+        if (outputText) {
+            const blob = new Blob([outputText], { type: "text/plain" });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement("a");
+            a.download = `Розпізнаний текст з мови - ${outputLanguage}.txt`;
+            a.href = url;
+            a.click();
+        }
+    });
 
     selectMenu.addEventListener('click', function (e) {
         if (e.target.tagName === 'LI') {

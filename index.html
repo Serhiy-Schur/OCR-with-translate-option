@@ -1,14 +1,38 @@
 <!DOCTYPE html>
 <html lang="ukr">
 <head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-SDZ3BS5P0N"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+
+        gtag('js', new Date());
+
+        gtag('config', 'G-SDZ3BS5P0N');
+    </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>S3rG0's OCR</title>
+    <meta name="description"
+          content="Використовуйте наш онлайн інструмент для швидкого розпізнавання тексту з зображень. Підтримка багатьох форматів, миттєве копіювання розпізнаного тексту, та функція його перекладу.">
+    <meta name="keywords"
+          content="розпізнавання тексту, OCR, онлайн розпізнавання, текст з зображень, оптичне розпізнавання тексту, , S3rG0's OCR">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tesseract.js/1.0.10/tesseract.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
     <link href="style.css" rel="stylesheet" type="text/css">
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
 </head>
 <body>
+<a href="https://www.instagram.com/s3rg0_/" target="_blank" class="instagram-float">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png" alt="Instagram"/>
+</a>
+
 <div class="container">
     <div class="card input-wrapper">
         <div class="image-preview-container">
@@ -57,13 +81,19 @@
             <br>
             <button onclick="translateText()">Перекласти розпізнаний текст</button>
             <br>
+            <button id="download-btn1">
+                <span>Завантажити розпізнаний текст</span>
+                <ion-icon name="cloud-download-outline"></ion-icon>
+            </button>
+            <br>
             <button onclick="window.location.reload();">Очистити дані</button>
             <br>
             <button onclick="window.location.href='translate.html'">Перекладач</button>
         </div>
     </div>
     <div class="card output-wrapper">
-        <textarea class="output-text" cols="30" rows="15" id="result" placeholder="Розпізнаний текст з'явиться тут" readonly></textarea>
+        <textarea class="output-text" cols="30" rows="15" id="result" placeholder="Розпізнаний текст з'явиться тут"
+                  readonly></textarea>
     </div>
     <script src="recognizeScript.js"></script>
     <script>

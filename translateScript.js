@@ -85,7 +85,7 @@ downloadBtn.addEventListener("click", (e) => {
         const blob = new Blob([outputText], {type: "text/plain"});
         const url = URL.createObjectURL(blob);
         const a = document.createElement("a");
-        a.download = `translated-to-${outputLanguage}.txt`;
+        a.download = `Перекладено на ${outputLanguage}.txt`;
         a.href = url;
         a.click();
     }
